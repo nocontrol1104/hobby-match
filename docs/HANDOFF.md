@@ -137,7 +137,7 @@ Ubuntu でのセットアップ手順は `README.md` にあります。
 | 3 | リポジトリを Public にし、Settings → Pages の Source を GitHub Actions にする | オーナー |
 | 4 | GA4 のプロパティを作って測定ID（`G-` で始まる）を `site/config.js` に入れる | オーナー（ID 取得）→ 開発 |
 | 5 | 事前登録用の Google フォームを作り、URL を `site/config.js` に入れる | オーナー（作成）→ 開発 |
-| 6 | プライバシーポリシーを作る（GA4 を使う旨の記載が必要） | `site/privacy.html` を作成済み（2026-11-19）。お問い合わせ用 Google フォームを作り、URL を `config.js` の `contactFormUrl` に入れる（オーナー） |
+| 6 | プライバシーポリシーを作る（GA4 を使う旨の記載が必要） | 完了（2026-11-19）。`site/privacy.html`、お問い合わせは Google フォーム（`config.js` の `contactFormUrl`） |
 | 7 | Actions の「GitHub Pages に公開」を手動実行して公開 | 開発 or オーナー |
 | 8 | タイプ別 OGP 画像と動物イラストを作る | 開発 |
 | 9 | ASP（A8.net など）に登録し、審査に通った案件を `site/data.js` の `links` に入れる | オーナー（登録）→ 開発 |
