@@ -31,7 +31,8 @@ A を選ぶ場合、公開前に `docs/` に載せたくない内容がないか
 - [ ] `site/config.js` の `gaMeasurementId` に GA4 の測定ID（`G-` で始まる）を入れる。GA4 は無料。
   - <https://analytics.google.com/> でプロパティを作成 → 「ウェブ」のデータストリームを追加 → URL に公開先を入れる → 表示された測定IDをコピー。
 - [ ] 「同じタイプの人とつながる」の事前登録用に Google フォーム（無料）を作り、URL を `site/config.js` の `signupFormUrl` に入れる。
-- [ ] プライバシーポリシー（GA4 を使うことの記載が必要）を用意する。
+- [x] プライバシーポリシー（GA4 を使うことの記載が必要）を用意する → `site/privacy.html`
+- [ ] お問い合わせ用に Google フォーム（無料）を作り、URL を `site/config.js` の `contactFormUrl` に入れる。
 - [ ] アフィリエイトの審査に通ったら、`site/data.js` の `links` にリンクを追加する。
 
 ## 計測しているイベント（GA4）

@@ -8,4 +8,6 @@ window.SHUMI_CONFIG = {
   gaMeasurementId: "",
   // 「同じタイプの人とつながる」事前登録用の Google フォームの URL。空なら準備中表示のみ。
   signupFormUrl: "",
+  // お問い合わせ用の Google フォームの URL（https:// で始まるもの）。空なら「準備中」と表示する。
+  contactFormUrl: "",
 };

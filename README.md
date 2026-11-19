@@ -14,7 +14,8 @@
 | `site/` | 公開するサイト一式。ビルド不要の HTML / CSS / JS。 |
 | `site/data.js` | 質問・タイプ・趣味マスタ・アフィリエイトリンクのデータ。 |
 | `site/app.js` | 診断ロジックと画面。 |
-| `site/config.js` | サイト名、GA4 の測定ID、事前登録フォームの URL。 |
+| `site/config.js` | サイト名、GA4 の測定ID、事前登録・お問い合わせフォームの URL。 |
+| `site/privacy.html` | プライバシーポリシー・免責事項。 |
 | `docs/spec-hobby-diagnosis.md` | 趣味診断の仕様書 v0.2 の要点。 |
 | `docs/deploy.md` | GitHub Pages での公開手順と計測イベント。 |
 | `CLAUDE.md` | Claude Code で開発するときのルール。 |
