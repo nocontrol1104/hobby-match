@@ -14,8 +14,10 @@
 | `site/` | 公開するサイト一式。ビルド不要の HTML / CSS / JS。 |
 | `site/data.js` | 質問・タイプ・趣味マスタ・アフィリエイトリンクのデータ。 |
 | `site/app.js` | 診断ロジックと画面。 |
-| `site/config.js` | サイト名、GA4 の測定ID、事前登録・お問い合わせフォームの URL。 |
+| `site/config.js` | サイト名、公開先の URL、GA4 の測定ID、事前登録・お問い合わせフォームの URL。 |
 | `site/privacy.html` | プライバシーポリシー・免責事項。 |
+| `site/ogp/`, `site/share/` | シェア用の画像（1200×630）とタイプ別のシェア用ページ。`tools/build_ogp.py` で生成する。 |
+| `tools/build_ogp.py` | シェア用の画像とページを作るスクリプト（Chrome / Edge を使う。外部ライブラリなし）。 |
 | `docs/spec-hobby-diagnosis.md` | 趣味診断の仕様書 v0.2 の要点。 |
 | `docs/deploy.md` | GitHub Pages での公開手順と計測イベント。 |
 | `CLAUDE.md` | Claude Code で開発するときのルール。 |
@@ -87,7 +89,7 @@ GitHub Pages（無料）で公開する予定です。手順は [`docs/deploy.md
 ## 今後の予定
 
 1. 公開方法を決めて、GA4 の測定IDと事前登録フォームを設定し、MVP を公開する。
-2. タイプごとのシェア用 OGP 画像と動物イラストを用意する（今は絵文字で代用）。
+2. 動物イラストを用意する（今は絵文字で代用。シェア用画像は `tools/build_ogp.py` で作成済み）。
 3. ASP に登録し、審査に通った案件を `site/data.js` の `links` に入れる。
 4. 趣味詳細ページを記事化して検索流入を狙う（段階2）。
 5. 会員・交流機能は Supabase の無料枠で作る（段階3〜）。
