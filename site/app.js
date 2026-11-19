@@ -197,6 +197,8 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const yen = n => (n === 0 ? "0円" : n >= 10000 ? `${(n / 10000).toLocaleString("ja-JP")}万円` : `${n.toLocaleString("ja-JP")}円`);
   const STEP_LABEL = { know: "知る", try: "試す", gear: "そろえる" };
+  // 記事ページ（hobby/<ID>.html）がある趣味。tools/build_articles.py が articles.js を作る。
+  const ARTICLES = new Set(window.SHUMI_ARTICLES || []);
 
   function go(hash) {
     if (location.hash === hash) route(); else location.hash = hash;
@@ -233,6 +235,7 @@
           ${last ? `<button class="btn ghost" id="last">前回の結果を見る</button>` : ""}
         </div>
         <button class="link" id="types">8つの動物タイプを見る →</button>
+        ${ARTICLES.size ? `<a class="link" href="hobby/">趣味の始め方ガイドを読む →</a>` : ""}
       </section>`;
     view.querySelector("#start").onclick = () => {
       state.step = 0; state.answers = [];
@@ -350,7 +353,9 @@
       <p>${esc(h.desc)}</p>
       <div class="meta"><span>初期費用 ${yen(h.initial)}〜</span><span>月 ${yen(h.monthly)}〜</span><span>週 ${h.hours}時間〜</span></div>
       ${stepsHtml(h, rank)}
-      <button class="link" data-detail="${esc(h.id)}">${esc(h.name)}の始め方を詳しく →</button>
+      ${ARTICLES.has(h.id)
+        ? `<a class="link" href="hobby/${encodeURIComponent(h.id)}.html">${esc(h.name)}の始め方を詳しく →</a>`
+        : `<button class="link" data-detail="${esc(h.id)}">${esc(h.name)}の始め方を詳しく →</button>`}
     </article>`;
   }
 
@@ -479,6 +484,7 @@
         <p class="policy">特に合いやすいタイプ: ${t.animal} ${esc(t.name)}</p>
         <div class="section-title"><h3>始め方3ステップ</h3></div>
         ${stepsHtml(h, 0)}
+        ${ARTICLES.has(h.id) ? `<a class="btn ghost" href="hobby/${encodeURIComponent(h.id)}.html">${esc(h.name)}の始め方ガイドを読む</a>` : ""}
         <div class="row"><button class="btn" id="start">自分に合うか診断する</button></div>
         <button class="link" id="back">← 戻る</button>
       </section>`;

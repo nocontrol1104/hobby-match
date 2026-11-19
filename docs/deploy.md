@@ -41,7 +41,8 @@ A を選ぶ場合、公開前に `docs/` に載せたくない内容がないか
 |---|---|---|
 | `diagnosis_start` | 診断を始めたとき | なし |
 | `diagnosis_complete` | 14問に答え終えたとき | `type`（例: `HLH`）, `question_version` |
-| `affiliate_click` | 始め方のリンクを押したとき | `hobby_id`, `step`（know/try/gear）, `rank`, `partner` |
+| `affiliate_click` | 始め方のリンクを押したとき | `hobby_id`, `step`（know/try/gear）, `rank`（記事ページは 0）, `partner`, `page`（記事ページは `article`） |
+| `article_cta_click` | 記事ページの「診断する」ボタンを押したとき | `cta`, `page`（ページのパス） |
 | `share` | X / LINE のシェアを押したとき | `method`, `type` |
 | `signup_click` | 事前登録ボタンを押したとき | `type` |
 
