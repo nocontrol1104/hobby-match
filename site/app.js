@@ -364,7 +364,10 @@
   function renderResult(answers) {
     const r = diagnose(answers);
     const t = r.type;
-    const pageUrl = location.href.split("#")[0] + "#r=" + encodeAnswers(answers);
+    // シェア用の URL はタイプ別ページ（share/<KEY>.html）にする。X や LINE は # 以降を読まないため、
+    // タイプ別の画像（OGP）はページを分けないと出せない。開くとすぐ結果ページ（#r=...）へ移動する。
+    const base = location.href.split("#")[0].replace(/index\.html$/, "");
+    const pageUrl = base + "share/" + r.key + ".html#r=" + encodeAnswers(answers);
     const shareText = `私の趣味タイプは「${t.name}」でした。おすすめは${r.top.map(x => x.hobby.name).join("・")}。 #${C.siteName || "シュミのたね"}`;
     const signup = C.signupFormUrl
       ? `<a class="btn small" href="${esc(C.signupFormUrl)}" target="_blank" rel="noopener" id="signup">公開されたら知らせてもらう</a>`

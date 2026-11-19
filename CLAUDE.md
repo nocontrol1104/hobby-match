@@ -30,6 +30,7 @@
 - 仕様を変えるときは `docs/` も同じ PR で更新する。
 - 依存ライブラリを追加するときは理由を PR に書く。
 - サイトを動かす: `python3 -m http.server 8000 --directory site`（または `site/index.html` を直接開く）
+- シェア用の画像とページを作り直す: `python tools/build_ogp.py`。タイプ名・タグライン・動物（`data.js`）や `config.js` の `siteUrl` を変えたら、同じ PR で実行して生成物もコミットする。`site/share/` と `site/ogp/` は手で編集しない。
 
 ## 診断ロジックの原則
 
