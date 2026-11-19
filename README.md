@@ -18,6 +18,10 @@
 | `site/privacy.html` | プライバシーポリシー・免責事項。 |
 | `site/ogp/`, `site/share/` | シェア用の画像（1200×630）とタイプ別のシェア用ページ。`tools/build_ogp.py` で生成する。 |
 | `tools/build_ogp.py` | シェア用の画像とページを作るスクリプト（Chrome / Edge を使う。外部ライブラリなし）。 |
+| `content/hobbies/*.md` | 趣味の始め方ガイド（記事）の本文。ファイル名は趣味ID。 |
+| `site/hobby/`, `site/articles.js`, `site/sitemap.xml` | 記事ページ・記事一覧・記事のある趣味ID・サイトマップ。`tools/build_articles.py` で生成する。 |
+| `site/article.js` | 記事ページ用のスクリプト（GA4、アフィリエイトリンクの差し込み、クリック計測）。 |
+| `tools/build_articles.py` | 記事ページを作るスクリプト（Chrome / Edge で data.js を読む。外部ライブラリなし）。 |
 | `docs/spec-hobby-diagnosis.md` | 趣味診断の仕様書 v0.2 の要点。 |
 | `docs/deploy.md` | GitHub Pages での公開手順と計測イベント。 |
 | `CLAUDE.md` | Claude Code で開発するときのルール。 |
