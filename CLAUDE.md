@@ -18,7 +18,8 @@
 - `site/`: 公開するサイト。ビルド不要の静的 HTML / CSS / JS（外部ライブラリなし、Google Fonts のみ）。GitHub Pages で公開する（手順は `docs/deploy.md`）。
   - `data.js`: 質問・タイプ・趣味マスタ・リンク。`file://` でも動くよう JSON ではなく JS で持つ。
   - `app.js`: 診断エンジン（純粋関数）と画面。`window.ShumiEngine` で検証できる。
-  - `config.js`: GA4 測定ID などの公開してよい設定。
+  - `config.js`: GA4 測定ID、フォームの URL などの公開してよい設定。
+  - `privacy.html`: プライバシーポリシー・免責事項。計測する項目、外部サービス、アフィリエイトの扱いを変えたら、ここも同じ PR で直す。
 - DB はまだ持たない。診断結果は URL と localStorage、計測は GA4。会員機能（段階3）から Supabase の無料枠を使う。
 - **費用が発生する操作（有料プラン、ドメイン購入、有料 API など）は、必ず手を止めてユーザーの承認を得る。**
 
