@@ -17,6 +17,7 @@
 | `site/config.js` | サイト名、公開先の URL、GA4 の測定ID、事前登録・お問い合わせフォームの URL。 |
 | `site/privacy.html` | プライバシーポリシー・免責事項。 |
 | `site/about.html` | このサイトについて・診断の仕組み。`tools/build_articles.py` で生成する。 |
+| `site/llms.txt` | AI 向けのサイト案内。`tools/build_articles.py` で生成する。 |
 | `site/ogp/`, `site/share/` | シェア用の画像（1200×630）とタイプ別のシェア用ページ。`tools/build_ogp.py` で生成する。 |
 | `tools/build_ogp.py` | シェア用の画像とページを作るスクリプト（Chrome / Edge を使う。外部ライブラリなし）。 |
 | `content/hobbies/*.md` | 趣味の始め方ガイド（記事）の本文。ファイル名は趣味ID。 |

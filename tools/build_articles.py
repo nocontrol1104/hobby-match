@@ -15,6 +15,8 @@
   site/sitemap.xml              検索エンジン向けのページ一覧
   site/index.html の STATIC 部分 JS を読まない AI・クローラ向けのトップの本文
   site/about.html               このサイトについて・診断の仕組み
+  site/llms.txt                 AI 向けのサイト案内
+  各ページの JSON-LD             構造化データ（記事・FAQ・パンくず・サイト・運営者）
 
 費用・時間・始め方3ステップは data.js から入れるので、記事の本文には書かない（数字がずれないように）。
 アフィリエイトリンクは data.js の links から、ページを開いたときに site/article.js が入れる。
@@ -158,6 +160,7 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="../style.css">
+{jsonld}
 </head>
 <body>
 <div class="app">
@@ -187,7 +190,8 @@ def steps_html(h):
     return '<ol class="steps">' + "".join(rows) + "</ol>"
 
 
-def article_page(h, body_html, meta, data, site, related):
+def article_page(h, body_html, meta, data, site, related, md=""):
+    ld = article_ld(h, md, meta, site)
     t = data["types"][type_key(h)]
     url = f"{site}hobby/{h['id']}.html"
     title = f"{h['name']}の始め方｜費用・時間の目安と最初の3ステップ | シュミのたね"
@@ -196,7 +200,7 @@ def article_page(h, body_html, meta, data, site, related):
     rel = "".join(
         f'<li><a href="{e(r["id"])}.html"><b>{e(r["name"])}の始め方</b><small>{e(r["desc"])}</small></a></li>' for r in related
     )
-    return HEAD.format(title=e(title), desc=e(desc), url=e(url), site=e(site), og_type="article") + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="../">トップ</a> › <a href="./">趣味の始め方ガイド</a> › {e(h['name'])}</nav>
+    return HEAD.format(title=e(title), desc=e(desc), url=e(url), site=e(site), og_type="article", jsonld=ld) + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="../">トップ</a> › <a href="./">趣味の始め方ガイド</a> › {e(h['name'])}</nav>
   <main>
     <article class="card article">
       <span class="eyebrow">{e(h['category'])}</span>
@@ -229,7 +233,7 @@ def index_page(articles, data, site):
         f'<small>{e(h["desc"])}</small><small>初期費用 {yen(h["initial"])}〜・月 {yen(h["monthly"])}〜・週 {h["hours"]}時間〜</small></a></li>'
         for h in articles
     )
-    return HEAD.format(title=e(title), desc=e(desc), url=e(url), site=e(site), og_type="website") + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="../">トップ</a> › 趣味の始め方ガイド</nav>
+    return HEAD.format(title=e(title), desc=e(desc), url=e(url), site=e(site), og_type="website", jsonld=guide_index_ld(articles, site)) + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="../">トップ</a> › 趣味の始め方ガイド</nav>
   <main>
     <section class="card article">
       <h1>趣味の始め方ガイド</h1>
@@ -345,7 +349,7 @@ def about_page(data, site):
     weights = "、".join(f'{e(a["name"])} {a["weight"]}' for a in data["axes"])
     title = "このサイトについて・診断の仕組み | シュミのたね"
     desc = "趣味診断サイト「シュミのたね」の運営者、目的、診断の仕組み（5つの軸、8つの動物タイプ、合い度の計算）、広告の方針を説明します。"
-    head = ABOUT_HEAD.format(title=e(title), desc=e(desc), url=e(f"{site}about.html"), site=e(site), og_type="website")
+    head = ABOUT_HEAD.format(title=e(title), desc=e(desc), url=e(f"{site}about.html"), site=e(site), og_type="website", jsonld=about_ld(site))
     return head + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="./">トップ</a> › このサイトについて</nav>
   <main>
     <article class="card article">
@@ -396,6 +400,147 @@ def about_page(data, site):
 
 
 
+# ---------- 構造化データ（JSON-LD）と llms.txt ----------
+# AI や検索エンジンが「誰が・何について書いたページか」を機械的に読めるようにする。
+
+ORG_NAME = "シュミのたね運営事務局"
+SITE_NAME = "シュミのたね"
+SITE_DESC = "20〜40代の社会人向けの無料の趣味診断。14の質問で8種類の動物タイプに診断し、合う趣味と始め方を提案します。"
+JSONLD_START = "<!-- JSONLD:START"
+JSONLD_END = "<!-- JSONLD:END -->"
+
+
+def jsonld(*objs):
+    graph = {"@context": "https://schema.org", "@graph": list(objs)}
+    text = json.dumps(graph, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    return f'<script type="application/ld+json">\n{text}\n</script>'
+
+
+def org_ld(site):
+    org = {"@type": "Organization", "@id": f"{site}#org", "name": ORG_NAME, "url": site}
+    contact = read_contact_url()
+    if contact.startswith("https://"):
+        org["contactPoint"] = {"@type": "ContactPoint", "contactType": "customer support", "url": contact}
+    return org
+
+
+def website_ld(site):
+    return {"@type": "WebSite", "@id": f"{site}#website", "name": SITE_NAME, "url": site,
+            "description": SITE_DESC, "inLanguage": "ja", "publisher": {"@id": f"{site}#org"}}
+
+
+def breadcrumb_ld(items):
+    return {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": name, "item": url} for i, (name, url) in enumerate(items)
+    ]}
+
+
+def faq_items(md):
+    """本文の「## よくある質問」の下にある「### 質問」と答えの段落を取り出す。"""
+    m = re.search(r"^## よくある質問[ \t]*$(.*?)(?=^## |\Z)", md, re.M | re.S)
+    if not m:
+        return []
+    items = []
+    for block in re.split(r"^### ", m.group(1), flags=re.M)[1:]:
+        q, _, a = block.partition("\n")
+        a = " ".join(line.strip() for line in a.strip().splitlines() if line.strip())
+        a = re.sub(r"\*\*(.+?)\*\*", r"\1", a)
+        if q.strip() and a:
+            items.append((q.strip(), a))
+    return items
+
+
+def article_ld(h, md, meta, site):
+    url = f"{site}hobby/{h['id']}.html"
+    updated = meta.get("updated", datetime.date.today().isoformat())
+    objs = [
+        {"@type": "Article", "@id": f"{url}#article", "mainEntityOfPage": url,
+         "headline": f"{h['name']}の始め方｜費用・時間の目安と最初の3ステップ",
+         "description": h["desc"], "image": f"{site}ogp/default.png", "inLanguage": "ja",
+         "datePublished": meta.get("published", updated), "dateModified": updated,
+         "author": {"@id": f"{site}#org"}, "publisher": {"@id": f"{site}#org"},
+         "isPartOf": {"@id": f"{site}#website"}, "about": {"@type": "Thing", "name": h["name"]}},
+        breadcrumb_ld([("トップ", site), ("趣味の始め方ガイド", f"{site}hobby/"), (h["name"], url)]),
+        org_ld(site), website_ld(site),
+    ]
+    faqs = faq_items(md)
+    if faqs:
+        objs.insert(1, {"@type": "FAQPage", "@id": f"{url}#faq", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs
+        ]})
+    return jsonld(*objs)
+
+
+def guide_index_ld(articles, site):
+    url = f"{site}hobby/"
+    return jsonld(
+        {"@type": "CollectionPage", "@id": url, "url": url, "name": "趣味の始め方ガイド", "inLanguage": "ja",
+         "isPartOf": {"@id": f"{site}#website"},
+         "mainEntity": {"@type": "ItemList", "itemListElement": [
+             {"@type": "ListItem", "position": i + 1, "url": f"{site}hobby/{h['id']}.html", "name": f"{h['name']}の始め方"}
+             for i, h in enumerate(articles)]}},
+        breadcrumb_ld([("トップ", site), ("趣味の始め方ガイド", url)]),
+        org_ld(site), website_ld(site),
+    )
+
+
+def about_ld(site):
+    url = f"{site}about.html"
+    return jsonld(
+        {"@type": "AboutPage", "@id": url, "url": url, "name": "このサイトについて・診断の仕組み", "inLanguage": "ja",
+         "isPartOf": {"@id": f"{site}#website"}, "mainEntity": {"@id": f"{site}#org"}},
+        breadcrumb_ld([("トップ", site), ("このサイトについて", url)]),
+        org_ld(site), website_ld(site),
+    )
+
+
+def top_ld(data, site):
+    return jsonld(
+        website_ld(site), org_ld(site),
+        {"@type": "WebApplication", "@id": f"{site}#app", "name": f"{SITE_NAME} 趣味診断", "url": site,
+         "description": f"14の質問に答えると、8種類の動物タイプで傾向を診断し、{len(data['hobbies'])}種類の趣味から合うものを提案します。",
+         "applicationCategory": "LifestyleApplication", "operatingSystem": "Web", "inLanguage": "ja",
+         "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"},
+         "publisher": {"@id": f"{site}#org"}},
+    )
+
+
+def inject_top_ld(data, site):
+    p = SITE / "index.html"
+    s = p.read_text(encoding="utf-8")
+    i, j = s.find(JSONLD_START), s.find(JSONLD_END)
+    if i < 0 or j < 0:
+        sys.exit("site/index.html に JSONLD:START / JSONLD:END の目印がありません。")
+    block = f"{JSONLD_START} tools/build_articles.py が生成。直接編集しない。 -->\n{top_ld(data, site)}\n{JSONLD_END}"
+    p.write_text(s[:i] + block + s[j + len(JSONLD_END):], encoding="utf-8", newline="\n")
+
+
+def llms_txt(data, articles, site):
+    lines = [
+        f"# {SITE_NAME}",
+        "",
+        f"> {SITE_DESC}趣味ごとの始め方ガイドでは、費用と時間の目安と、知る・試す・そろえるの3ステップを紹介しています。",
+        "",
+        f"- 運営: {ORG_NAME}",
+        "- 言語: 日本語",
+        "- 広告: アフィリエイト広告を含みます（リンクに PR と表示）。診断のおすすめの順位は、紹介料では変えていません。",
+        "- 費用と時間は始めるときの一般的な目安です。",
+        "",
+        "## サイトについて",
+        "",
+        f"- [趣味診断]({site}): 14の質問（約2分）で、5つの軸（場所・人数・活動量・創作・本気度）と8つの動物タイプを診断し、{len(data['hobbies'])}種類の趣味から合うものを3つ提案します。",
+        f"- [このサイトについて・診断の仕組み]({site}about.html): 運営者、目的、質問、スコアの計算、8タイプの決め方、おすすめの選び方、広告の方針。",
+        "",
+        "## 趣味の始め方ガイド",
+        "",
+        f"- [趣味の始め方ガイド一覧]({site}hobby/)",
+    ]
+    lines += [f"- [{h['name']}の始め方]({site}hobby/{h['id']}.html): {h['desc']}" for h in articles]
+    lines += ["", "## その他", "", f"- [プライバシーポリシー・免責事項]({site}privacy.html)", ""]
+    return "\n".join(lines)
+
+
+
 def main():
     browser = find_browser()
     site = read_site_url()
@@ -421,7 +566,7 @@ def main():
         meta, body = metas[h["id"]]
         others = [a for a in articles if a["id"] != h["id"]]
         related = sorted(others, key=lambda a: distance(h, a, data["axes"]))[:3]
-        page = article_page(h, md_to_html(body), meta, data, site, related)
+        page = article_page(h, md_to_html(body), meta, data, site, related, md=body)
         (out_dir / f"{h['id']}.html").write_text(page, encoding="utf-8", newline="\n")
         print(f"site/hobby/{h['id']}.html")
 
@@ -439,6 +584,10 @@ def main():
     print("site/index.html（静的な本文）")
     (SITE / "about.html").write_text(about_page(data, site), encoding="utf-8", newline="\n")
     print("site/about.html")
+    inject_top_ld(data, site)
+    print("site/index.html（JSON-LD）")
+    (SITE / "llms.txt").write_text(llms_txt(data, articles, site), encoding="utf-8", newline="\n")
+    print("site/llms.txt")
 
     today = datetime.date.today().isoformat()
     urls = [(site, today), (f"{site}hobby/", today), (f"{site}about.html", today), (f"{site}privacy.html", today)]
