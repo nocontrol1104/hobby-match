@@ -1,0 +1,41 @@
+# シュミのたね
+
+> 20〜40代の社会人向けの無料の趣味診断。14の質問で8種類の動物タイプに診断し、合う趣味と始め方を提案します。趣味ごとの始め方ガイドでは、費用と時間の目安と、知る・試す・そろえるの3ステップを紹介しています。
+
+- 運営: シュミのたね運営事務局
+- 言語: 日本語
+- 広告: アフィリエイト広告を含みます（リンクに PR と表示）。診断のおすすめの順位は、紹介料では変えていません。
+- 費用と時間は始めるときの一般的な目安です。
+
+## サイトについて
+
+- [趣味診断](https://nocontrol1104.github.io/hobby-match/): 14の質問（約2分）で、5つの軸（場所・人数・活動量・創作・本気度）と8つの動物タイプを診断し、41種類の趣味から合うものを3つ提案します。
+- [このサイトについて・診断の仕組み](https://nocontrol1104.github.io/hobby-match/about.html): 運営者、目的、質問、スコアの計算、8タイプの決め方、おすすめの選び方、広告の方針。
+
+## 趣味の始め方ガイド
+
+- [趣味の始め方ガイド一覧](https://nocontrol1104.github.io/hobby-match/hobby/)
+- [BBQ・デイキャンプの始め方](https://nocontrol1104.github.io/hobby-match/hobby/bbq.html): 手ぶらプランもあり、誘いやすさは趣味の中でもトップクラス。
+- [ボードゲームの始め方](https://nocontrol1104.github.io/hobby-match/hobby/boardgame.html): ルールひとつで初対面とも盛り上がれる、最強のコミュニケーション。
+- [ボルダリングの始め方](https://nocontrol1104.github.io/hobby-match/hobby/bouldering.html): パズルを解く感覚で壁を登る。ジムで自然に顔見知りができる。
+- [料理教室の始め方](https://nocontrol1104.github.io/hobby-match/hobby/cookingclass.html): 習って、作って、みんなで食べる。レパートリーと友達が一緒に増える。
+- [ダンスの始め方](https://nocontrol1104.github.io/hobby-match/hobby/dance.html): 音楽に合わせて体を動かす。振付を覚えて踊れた瞬間が快感。
+- [オンライン英会話の始め方](https://nocontrol1104.github.io/hobby-match/hobby/eikaiwa.html): 1日25分から。話せる国がひとつ増えると、旅の楽しさが変わる。
+- [釣りの始め方](https://nocontrol1104.github.io/hobby-match/hobby/fishing.html): 待つ時間すら楽しい。釣れた魚を食べるところまでが趣味。
+- [グランピングの始め方](https://nocontrol1104.github.io/hobby-match/hobby/glamping.html): 道具も準備もいらないキャンプ。景色とごはんと会話をただ楽しむ。
+- [ゴルフの始め方](https://nocontrol1104.github.io/hobby-match/hobby/golf.html): 年齢を問わず一緒に回れる。上達の余地が一生続くスポーツ。
+- [ジム通いの始め方](https://nocontrol1104.github.io/hobby-match/hobby/gym.html): トレーナーと一緒に目標へ。数字で成長が見えるのが楽しい。
+- [低山ハイキングの始め方](https://nocontrol1104.github.io/hobby-match/hobby/hiking.html): 電車で行ける山から。頂上で食べるおにぎりは格別。
+- [イラストの始め方](https://nocontrol1104.github.io/hobby-match/hobby/illust.html): 描きたいものを描きたいだけ。上達が絵に残るのも嬉しい。
+- [ピアノ・ウクレレの始め方](https://nocontrol1104.github.io/hobby-match/hobby/instrument.html): 好きな曲を1曲弾けるようになるだけで、毎日がちょっと楽しくなる。
+- [カメラ散歩の始め方](https://nocontrol1104.github.io/hobby-match/hobby/photo.html): スマホからでOK。見慣れた道に、撮りたいものが急に増える。
+- [陶芸の始め方](https://nocontrol1104.github.io/hobby-match/hobby/pottery.html): 土をこねて形にする。自分で作った器でごはんを食べる日がくる。
+- [プログラミングの始め方](https://nocontrol1104.github.io/hobby-match/hobby/programming.html): 自分専用の便利ツールやゲームが作れる、現代のものづくり。
+- [ランニングの始め方](https://nocontrol1104.github.io/hobby-match/hobby/running.html): シューズひとつで今日から。距離やタイムが伸びるのが目に見えて楽しい。
+- [サーフィンの始め方](https://nocontrol1104.github.io/hobby-match/hobby/surfing.html): 波を待つ時間も、乗れた一瞬も特別。海が生活の一部になる。
+- [ボイトレ・歌の始め方](https://nocontrol1104.github.io/hobby-match/hobby/vocal.html): カラオケが変わる。声が出るようになると、気持ちまで軽くなる。
+- [ヨガの始め方](https://nocontrol1104.github.io/hobby-match/hobby/yoga.html): 呼吸と体を整える時間。オンラインなら家からすぐ始められる。
+
+## その他
+
+- [プライバシーポリシー・免責事項](https://nocontrol1104.github.io/hobby-match/privacy.html)
