@@ -216,5 +216,13 @@ window.SHUMI_DATA = {
    * 例: { hobbyId: "yoga", step: "try", label: "オンラインヨガの無料体験", url: "https://px.a8.net/...", partner: "A8.net", active: true }
    * step は "know" / "try" / "gear"。active が false か url が空ならリンクを出さない。
    */
-  links: [],
+  links: [
+    // A8.net（2026-11-25 提携）。リンク文言に料金・特典など確かめていないことは書かない。
+    { hobbyId: "eikaiwa", step: "try", label: "レアジョブ英会話（オンライン英会話）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+EUNA0I+1SVU+68U4Y", partner: "A8.net:レアジョブ英会話", active: true },
+    { hobbyId: "yoga", step: "try", label: "SOELU（オンラインヨガ）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+ES9JLE+4EPM+639IQ", partner: "A8.net:SOELU", active: true },
+    { hobbyId: "homeworkout", step: "try", label: "SOELU（オンラインフィットネス）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+ES9JLE+4EPM+639IQ", partner: "A8.net:SOELU", active: true },
+    { hobbyId: "instrument", step: "try", label: "EYS音楽教室（楽器のレッスン）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+EVU582+3H64+61Z82", partner: "A8.net:EYS音楽教室", active: true },
+    { hobbyId: "vocal", step: "try", label: "EYS音楽教室（ボーカルのレッスン）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+EVU582+3H64+61Z82", partner: "A8.net:EYS音楽教室", active: true },
+    { hobbyId: "band", step: "try", label: "EYS音楽教室（楽器・ボーカルのレッスン）", url: "https://px.a8.net/svt/ejp?a8mat=4BGPOO+EVU582+3H64+61Z82", partner: "A8.net:EYS音楽教室", active: true },
+  ],
 };
