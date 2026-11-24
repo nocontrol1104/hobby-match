@@ -13,6 +13,8 @@
   site/hobby/index.html         記事の一覧
   site/articles.js              記事がある趣味ID の一覧（診断画面から記事へリンクするため）
   site/sitemap.xml              検索エンジン向けのページ一覧
+  site/index.html の STATIC 部分 JS を読まない AI・クローラ向けのトップの本文
+  site/about.html               このサイトについて・診断の仕組み
 
 費用・時間・始め方3ステップは data.js から入れるので、記事の本文には書かない（数字がずれないように）。
 アフィリエイトリンクは data.js の links から、ページを開いたときに site/article.js が入れる。
@@ -165,7 +167,7 @@ HEAD = """<!doctype html>
   </header>
 """
 
-FOOT = """  <p class="foot"><a href="../">趣味診断</a>　<a href="./">趣味の始め方ガイド</a>　<a href="../privacy.html">プライバシーポリシー・免責事項</a></p>
+FOOT = """  <p class="foot"><a href="../">趣味診断</a>　<a href="./">趣味の始め方ガイド</a>　<a href="../about.html">このサイトについて</a>　<a href="../privacy.html">プライバシーポリシー・免責事項</a></p>
 </div>
 <script src="../config.js"></script>
 <script src="../data.js"></script>
@@ -242,6 +244,158 @@ def index_page(articles, data, site):
 """ + FOOT
 
 
+# ---------- トップの静的な本文 と 「このサイトについて」ページ ----------
+# トップ（index.html）は JS で画面を描くため、JS を読まない AI・クローラには中身が見えない。
+# そこで data.js から作った本文を index.html の STATIC:START〜END の間に入れておく。
+# JS が動くと app.js が #view の中身を差し替えるので、ふつうの利用者には今までどおりの画面が出る。
+
+STATIC_START = "<!-- STATIC:START"
+STATIC_END = "<!-- STATIC:END -->"
+
+
+def read_contact_url():
+    m = re.search(r'contactFormUrl:\s*"([^"]*)"', (SITE / "config.js").read_text(encoding="utf-8"))
+    return m.group(1) if m else ""
+
+
+def pole_names(data, key):
+    return " × ".join(data["axes"][i]["high" if c == "H" else "low"] for i, c in enumerate(key))
+
+
+def types_html(data):
+    cards = "".join(
+        f'<div class="type-card"><span class="animal" aria-hidden="true">{t["animal"]}</span>'
+        f'<b>{e(t["name"])}</b><span>{e(pole_names(data, k))}</span><span>{e(t["text"])}</span></div>'
+        for k, t in data["types"].items()
+    )
+    return f'<div class="type-grid">{cards}</div>'
+
+
+def hobby_index_html(data, article_ids):
+    rows = []
+    for h in data["hobbies"]:
+        name = e(h["name"])
+        if h["id"] in article_ids:
+            name = f'<a href="hobby/{e(h["id"])}.html">{name}</a>'
+        rows.append(f'<li><b>{name}</b>（{e(h["category"])}）— {e(h["desc"])}</li>')
+    return '<ul class="hobby-index">' + "".join(rows) + "</ul>"
+
+
+def static_top_html(data, article_ids):
+    n = len(data["hobbies"])
+    axes = "".join(f'<li><b>{e(a["name"])}</b>：{e(a["low"])} ↔ {e(a["high"])}</li>' for a in data["axes"])
+    return f"""{STATIC_START} tools/build_articles.py が生成。直接編集しない。JS が動くと app.js がこの中身を差し替える。 -->
+    <section class="card hero">
+      <h1>14の質問で、<br><em>あなたに合う趣味</em>が見つかる。</h1>
+      <p class="lead">シュミのたねは、20〜40代の社会人向けの無料の趣味診断です。14の質問（約2分）に答えると、あなたを8種類の動物タイプにたとえて、{n}種類の趣味から合うものを3つと、ちょっと意外な出会いをひとつ提案します。</p>
+      <noscript><p class="policy">診断を受けるには、ブラウザの JavaScript を有効にしてください。</p></noscript>
+      <p><a href="hobby/">趣味の始め方ガイド</a>・<a href="about.html">このサイトについて・診断の仕組み</a></p>
+    </section>
+    <section class="card">
+      <h2>診断のしくみ</h2>
+      <p>12の質問から、趣味の好みを5つの軸（0〜100）で表します。残りの2問で、趣味に使える月の予算と週の時間を聞きます。</p>
+      <ul>{axes}</ul>
+      <p>「場所」「人数」「活動量」の3つの軸で8つの動物タイプが決まり、5つの軸の近さ（合い度）と予算・時間の条件から、おすすめの趣味を選びます。おすすめの順位は、広告の紹介料では変えていません。くわしくは<a href="about.html">診断の仕組み</a>をご覧ください。</p>
+    </section>
+    <section class="card">
+      <h2>8つの動物タイプ</h2>
+      {types_html(data)}
+    </section>
+    <section class="card">
+      <h2>診断で提案する趣味（{n}種類）</h2>
+      <p>リンクのある趣味は、始め方ガイド（費用・時間の目安と最初の3ステップ）を読めます。</p>
+      {hobby_index_html(data, article_ids)}
+    </section>
+    {STATIC_END}"""
+
+
+def inject_static_top(data, article_ids):
+    p = SITE / "index.html"
+    s = p.read_text(encoding="utf-8")
+    i, j = s.find(STATIC_START), s.find(STATIC_END)
+    if i < 0 or j < 0:
+        sys.exit("site/index.html に STATIC:START / STATIC:END の目印がありません。")
+    s = s[:i] + static_top_html(data, article_ids) + s[j + len(STATIC_END):]
+    p.write_text(s, encoding="utf-8", newline="\n")
+
+
+# 記事用の HEAD / FOOT を、サイト直下のページ用にパスを直して使う
+ABOUT_HEAD = HEAD.replace('href="../style.css"', 'href="style.css"').replace('href="../"', 'href="./"')
+ABOUT_FOOT = (FOOT.replace('<a href="../">趣味診断</a>', '<a href="./">趣味診断</a>')
+              .replace('<a href="./">趣味の始め方ガイド</a>', '<a href="hobby/">趣味の始め方ガイド</a>')
+              .replace('href="../about.html"', 'href="about.html"')
+              .replace('href="../privacy.html"', 'href="privacy.html"')
+              .replace('src="../', 'src="'))
+
+
+def about_page(data, site):
+    n = len(data["hobbies"])
+    axis = {a["id"]: a for a in data["axes"]}
+    contact = read_contact_url()
+    contact_html = (f'<a href="{e(contact)}" target="_blank" rel="noopener">お問い合わせフォーム</a>'
+                    if contact.startswith("https://") else "準備中")
+    qs = "".join(
+        f'<li>{e(q["text"])}（{e(axis[q["axis"]]["name"])}：'
+        f'{e(axis[q["axis"]]["high" if q["dir"] == "high" else "low"])}の向き）</li>'
+        for q in data["questions"]
+    )
+    conds = "".join(
+        f'<li>{e(c["text"])}（{e(" / ".join(o["label"] for o in c["options"]))}）</li>' for c in data["conditions"]
+    )
+    weights = "、".join(f'{e(a["name"])} {a["weight"]}' for a in data["axes"])
+    title = "このサイトについて・診断の仕組み | シュミのたね"
+    desc = "趣味診断サイト「シュミのたね」の運営者、目的、診断の仕組み（5つの軸、8つの動物タイプ、合い度の計算）、広告の方針を説明します。"
+    head = ABOUT_HEAD.format(title=e(title), desc=e(desc), url=e(f"{site}about.html"), site=e(site), og_type="website")
+    return head + f"""  <nav class="crumbs" aria-label="パンくずリスト"><a href="./">トップ</a> › このサイトについて</nav>
+  <main>
+    <article class="card article">
+      <h1>このサイトについて・診断の仕組み</h1>
+      <h2>シュミのたねとは</h2>
+      <p>シュミのたねは、20〜40代の社会人が新しい趣味に出会うための無料の趣味診断サイトです。14の質問に答えると、好みの傾向を8種類の動物タイプにたとえ、{n}種類の趣味から合うものを提案します。趣味ごとの<a href="hobby/">始め方ガイド</a>では、費用と時間の目安と、知る・試す・そろえるの3ステップで始め方を紹介しています。</p>
+      <p>ゆくゆくは、同じ趣味の人同士がつながれる機能を加える予定です（準備中）。</p>
+      <h2>運営者</h2>
+      <ul>
+        <li>運営者：シュミのたね運営事務局</li>
+        <li>公開日：2026年11月19日</li>
+        <li>お問い合わせ：{contact_html}</li>
+      </ul>
+      <h2>診断の仕組み</h2>
+      <h3>1. 質問（14問）</h3>
+      <p>12問は「とてもそう思う」〜「まったくそう思わない」の5段階で答えます。</p>
+      <ol>{qs}</ol>
+      <p>残りの2問は、おすすめを絞り込むための条件です。</p>
+      <ul>{conds}</ul>
+      <h3>2. 5つの軸のスコア</h3>
+      <p>5段階の回答を +2〜−2 の点にし、軸ごとに合計して 0〜100 に直します。100 に近いほど、その軸の右側（屋外、みんな、アクティブ、つくる、本格的に）の傾向が強いことを表します。</p>
+      <h3>3. 8つの動物タイプ</h3>
+      <p>「場所」「人数」「活動量」の3つの軸が 50 以上か未満かで、8つのタイプに分けます。</p>
+      {types_html(data)}
+      <h3>4. おすすめの趣味の選び方</h3>
+      <ul>
+        <li>趣味ごとに、5つの軸の値（0〜100）を決めてあります。あなたのスコアとの近さ（重み付きの距離）から「合い度」を計算します。重みは {weights} です。</li>
+        <li>月の予算と週の時間の条件を超える趣味は、候補から外します。外すと候補が少なくなりすぎる場合は外さずに、超えた段階の数に応じて合い度を下げます。</li>
+        <li>合い度の高い順に、同じジャンルの趣味は1つまでにして3つを選びます。</li>
+        <li>4位以降から、3つの軸のうち1つだけ傾向が違う趣味を「意外な出会い」として1つ紹介します。</li>
+      </ul>
+      <p class="policy">診断は趣味を見つけるきっかけとしての目安です。趣味の軸の値は運営者が設定したもので、今後の利用状況を見て調整します。</p>
+      <h2>広告とおすすめの方針</h2>
+      <ul>
+        <li>本サイトはアフィリエイト広告を利用しています。広告のリンクには「PR」と表示します。</li>
+        <li><b>診断のおすすめの順位は、診断の計算だけで決めています。</b>紹介料の有無や金額で、順位や内容を変えることはありません。</li>
+        <li>診断の回答は、お使いのブラウザの中にだけ保存されます。くわしくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</li>
+      </ul>
+      <h2>始め方ガイドの書き方</h2>
+      <ul>
+        <li>大人の初心者が最初の一歩を踏み出せるよう、魅力、費用と時間の考え方、つまずきやすいポイント、よくある質問をまとめています。</li>
+        <li>費用と時間は始めるときの一般的な目安です。地域・お店・やり方によって変わります。</li>
+        <li>確かめられない料金や効果は書かないようにしています。健康や安全に関わる内容では、医師や専門家への相談をおすすめしています。</li>
+      </ul>
+    </article>
+  </main>
+""" + ABOUT_FOOT
+
+
+
 def main():
     browser = find_browser()
     site = read_site_url()
@@ -280,8 +434,14 @@ def main():
         f"window.SHUMI_ARTICLES = {ids};\n", encoding="utf-8", newline="\n")
     print("site/articles.js")
 
+    article_ids = {h["id"] for h in articles}
+    inject_static_top(data, article_ids)
+    print("site/index.html（静的な本文）")
+    (SITE / "about.html").write_text(about_page(data, site), encoding="utf-8", newline="\n")
+    print("site/about.html")
+
     today = datetime.date.today().isoformat()
-    urls = [(site, today), (f"{site}hobby/", today), (f"{site}privacy.html", today)]
+    urls = [(site, today), (f"{site}hobby/", today), (f"{site}about.html", today), (f"{site}privacy.html", today)]
     urls += [(f"{site}hobby/{h['id']}.html", metas[h["id"]][0].get("updated", today)) for h in articles]
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += "".join(f"  <url><loc>{e(u)}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls)

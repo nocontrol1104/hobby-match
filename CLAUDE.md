@@ -31,7 +31,8 @@
 - 依存ライブラリを追加するときは理由を PR に書く。
 - サイトを動かす: `python3 -m http.server 8000 --directory site`（または `site/index.html` を直接開く）
 - シェア用の画像とページを作り直す: `python tools/build_ogp.py`。タイプ名・タグライン・動物（`data.js`）や `config.js` の `siteUrl` を変えたら、同じ PR で実行して生成物もコミットする。`site/share/` と `site/ogp/` は手で編集しない。
-- 記事（趣味の始め方ガイド）を作り直す: `python tools/build_articles.py`。本文は `content/hobbies/<趣味ID>.md` に書く（使える書き方は `##`・`###`・`- `・`**太字**`・空行で段落）。費用・時間・始め方3ステップは `data.js` から入るので本文に数字を書かない。`data.js` の趣味や `content/` を変えたら、同じ PR で実行して生成物もコミットする。`site/hobby/`、`site/articles.js`、`site/sitemap.xml` は手で編集しない。
+- 記事（趣味の始め方ガイド）を作り直す: `python tools/build_articles.py`。本文は `content/hobbies/<趣味ID>.md` に書く（使える書き方は `##`・`###`・`- `・`**太字**`・空行で段落）。費用・時間・始め方3ステップは `data.js` から入るので本文に数字を書かない。`data.js` の趣味や `content/` を変えたら、同じ PR で実行して生成物もコミットする。`site/hobby/`、`site/articles.js`、`site/sitemap.xml`、`site/about.html`、`site/index.html` の `STATIC:START`〜`STATIC:END` の間は手で編集しない。
+- トップ（`index.html`）は JS で画面を描くため、JS を読まない AI・クローラ向けに、`tools/build_articles.py` が `data.js` から作った本文（説明・5軸・8タイプ・趣味一覧）を `#view` の中に入れている。JS が動くと `app.js` が差し替える。質問・タイプ・趣味・診断の計算を変えたら、スクリプトを実行し、必要なら `about.html` の説明文（`build_articles.py` の `about_page`）も直す。
 - 記事の本文では、確かめられない数字（具体的な料金、効果）や特定の会社の評価を書かない。費用は「目安」「お店によって違う」と書く。健康に関わる内容は「医師に相談」を添える。
 
 ## 診断ロジックの原則
