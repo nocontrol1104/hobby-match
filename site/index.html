@@ -28,8 +28,32 @@
     <a class="logo" href="#" style="color:inherit;text-decoration:none"><span class="logo-dot" aria-hidden="true"></span>シュミのたね</a>
     <span class="tag">ベータ版</span>
   </header>
-  <main id="view"><noscript>この診断は JavaScript を有効にしてご利用ください。</noscript></main>
-  <p class="foot">診断結果はお使いのブラウザの中だけに保存されます。<br><a href="privacy.html">プライバシーポリシー・免責事項</a></p>
+  <main id="view">
+    <!-- STATIC:START tools/build_articles.py が生成。直接編集しない。JS が動くと app.js がこの中身を差し替える。 -->
+    <section class="card hero">
+      <h1>14の質問で、<br><em>あなたに合う趣味</em>が見つかる。</h1>
+      <p class="lead">シュミのたねは、20〜40代の社会人向けの無料の趣味診断です。14の質問（約2分）に答えると、あなたを8種類の動物タイプにたとえて、41種類の趣味から合うものを3つと、ちょっと意外な出会いをひとつ提案します。</p>
+      <noscript><p class="policy">診断を受けるには、ブラウザの JavaScript を有効にしてください。</p></noscript>
+      <p><a href="hobby/">趣味の始め方ガイド</a>・<a href="about.html">このサイトについて・診断の仕組み</a></p>
+    </section>
+    <section class="card">
+      <h2>診断のしくみ</h2>
+      <p>12の質問から、趣味の好みを5つの軸（0〜100）で表します。残りの2問で、趣味に使える月の予算と週の時間を聞きます。</p>
+      <ul><li><b>場所</b>：屋内 ↔ 屋外</li><li><b>人数</b>：ひとり ↔ みんな</li><li><b>活動量</b>：じっくり ↔ アクティブ</li><li><b>創作</b>：楽しむ・味わう ↔ つくる</li><li><b>本気度</b>：気軽に ↔ 本格的に</li></ul>
+      <p>「場所」「人数」「活動量」の3つの軸で8つの動物タイプが決まり、5つの軸の近さ（合い度）と予算・時間の条件から、おすすめの趣味を選びます。おすすめの順位は、広告の紹介料では変えていません。くわしくは<a href="about.html">診断の仕組み</a>をご覧ください。</p>
+    </section>
+    <section class="card">
+      <h2>8つの動物タイプ</h2>
+      <div class="type-grid"><div class="type-card"><span class="animal" aria-hidden="true">🦫</span><b>コツコツ職人のビーバー</b><span>屋内 × ひとり × じっくり</span><span>黙々と巣を作るビーバーのように、ひとつのことに深く没頭できるタイプ。手を動かすほど上達が形に残る趣味で力を発揮します。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐈</span><b>気ままに鍛えるネコ</b><span>屋内 × ひとり × アクティブ</span><span>誰かに合わせるより、自分のタイミングで動きたいタイプ。家でもジムでも、気ままに続けられる体を動かす趣味が合います。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🦉</span><b>知恵者のフクロウ</b><span>屋内 × みんな × じっくり</span><span>落ち着いた場所で、人と話したり考えたりするのが好きなタイプ。ゲームや教室で、自然と頼られる存在になれます。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐬</span><b>遊び上手のイルカ</b><span>屋内 × みんな × アクティブ</span><span>誰かと一緒に体を動かすとエンジンがかかるタイプ。音やリズムを合わせる一体感で一番輝きます。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐢</span><b>のんびり散策のカメ</b><span>屋外 × ひとり × じっくり</span><span>外の空気を感じながら、自分のペースで過ごすのが好きなタイプ。待つ時間や育つ時間も楽しめる懐の深さがあります。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐺</span><b>一匹オオカミ</b><span>屋外 × ひとり × アクティブ</span><span>身ひとつで外へ飛び出し、新しい景色を見に行くのが好きなタイプ。距離や記録が伸びるたびに世界が広がります。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐑</span><b>群れでくつろぐヒツジ</b><span>屋外 × みんな × じっくり</span><span>気の合う仲間と外でゆったり過ごすのが好きなタイプ。急がず、わいわい、季節を味わう時間が宝物です。</span></div><div class="type-card"><span class="animal" aria-hidden="true">🐕</span><b>チームで駆けるイヌ</b><span>屋外 × みんな × アクティブ</span><span>仲間と外で走り回るのが大好きなタイプ。チームで汗をかくほど、つながりも元気も増えていきます。</span></div></div>
+    </section>
+    <section class="card">
+      <h2>診断で提案する趣味（41種類）</h2>
+      <p>リンクのある趣味は、始め方ガイド（費用・時間の目安と最初の3ステップ）を読めます。</p>
+      <ul class="hobby-index"><li><b><a href="hobby/running.html">ランニング</a></b>（走る・こぐ）— シューズひとつで今日から。距離やタイムが伸びるのが目に見えて楽しい。</li><li><b>ロードバイク</b>（走る・こぐ）— 風を切って、電車で行く距離を自分の脚で。週末の行動範囲がまるごと変わる。</li><li><b>ソロキャンプ</b>（キャンプ）— 火を起こして、ごはんを作って、ひとりで星を見る。自分だけの非日常。</li><li><b><a href="hobby/bbq.html">BBQ・デイキャンプ</a></b>（キャンプ）— 手ぶらプランもあり、誘いやすさは趣味の中でもトップクラス。</li><li><b><a href="hobby/glamping.html">グランピング</a></b>（旅・体験）— 道具も準備もいらないキャンプ。景色とごはんと会話をただ楽しむ。</li><li><b><a href="hobby/hiking.html">低山ハイキング</a></b>（山歩き）— 電車で行ける山から。頂上で食べるおにぎりは格別。</li><li><b>登山</b>（山歩き）— 仲間と励まし合って頂上へ。山小屋の朝焼けは一生ものの景色。</li><li><b>フットサル</b>（チームスポーツ）— 個人参加OKの会が多く、ひとりでもチームの一員になれる。</li><li><b><a href="hobby/surfing.html">サーフィン</a></b>（マリン）— 波を待つ時間も、乗れた一瞬も特別。海が生活の一部になる。</li><li><b><a href="hobby/golf.html">ゴルフ</a></b>（ゴルフ）— 年齢を問わず一緒に回れる。上達の余地が一生続くスポーツ。</li><li><b><a href="hobby/bouldering.html">ボルダリング</a></b>（屋内スポーツ）— パズルを解く感覚で壁を登る。ジムで自然に顔見知りができる。</li><li><b><a href="hobby/dance.html">ダンス</a></b>（ダンス）— 音楽に合わせて体を動かす。振付を覚えて踊れた瞬間が快感。</li><li><b>バンド</b>（音楽）— 誰かと音を合わせる楽しさは、ひとりでは味わえない。</li><li><b><a href="hobby/instrument.html">ピアノ・ウクレレ</a></b>（音楽）— 好きな曲を1曲弾けるようになるだけで、毎日がちょっと楽しくなる。</li><li><b><a href="hobby/vocal.html">ボイトレ・歌</a></b>（音楽）— カラオケが変わる。声が出るようになると、気持ちまで軽くなる。</li><li><b>家トレ</b>（フィットネス）— すきま時間に自宅で。体が変わっていく実感が続ける力になる。</li><li><b><a href="hobby/yoga.html">ヨガ</a></b>（フィットネス）— 呼吸と体を整える時間。オンラインなら家からすぐ始められる。</li><li><b><a href="hobby/gym.html">ジム通い</a></b>（フィットネス）— トレーナーと一緒に目標へ。数字で成長が見えるのが楽しい。</li><li><b>プラモデル</b>（ものづくり）— 組み立て、塗って、仕上げる。集中して没頭できる時間。</li><li><b>DIY・木工</b>（ものづくり）— 棚ひとつ作れると、部屋も自信もちょっと変わる。</li><li><b><a href="hobby/pottery.html">陶芸</a></b>（ものづくり）— 土をこねて形にする。自分で作った器でごはんを食べる日がくる。</li><li><b>刺繍</b>（手芸）— 針と糸で布に絵を描く。小さな作品から始められる。</li><li><b>編みもの</b>（手芸）— 手を動かしているうちに頭がすっきり。冬には自作のマフラー。</li><li><b><a href="hobby/illust.html">イラスト</a></b>（アート）— 描きたいものを描きたいだけ。上達が絵に残るのも嬉しい。</li><li><b><a href="hobby/photo.html">カメラ散歩</a></b>（写真）— スマホからでOK。見慣れた道に、撮りたいものが急に増える。</li><li><b><a href="hobby/programming.html">プログラミング</a></b>（学び）— 自分専用の便利ツールやゲームが作れる、現代のものづくり。</li><li><b><a href="hobby/eikaiwa.html">オンライン英会話</a></b>（語学）— 1日25分から。話せる国がひとつ増えると、旅の楽しさが変わる。</li><li><b>語学カフェ</b>（語学）— 飲み物片手に、いろんな国の人と気軽におしゃべり。</li><li><b><a href="hobby/boardgame.html">ボードゲーム</a></b>（ゲーム・交流）— ルールひとつで初対面とも盛り上がれる、最強のコミュニケーション。</li><li><b>謎解きイベント</b>（ゲーム・交流）— 仲間と頭をひねって脱出を目指す。ひらめいた瞬間がたまらない。</li><li><b><a href="hobby/cookingclass.html">料理教室</a></b>（料理）— 習って、作って、みんなで食べる。レパートリーと友達が一緒に増える。</li><li><b>スパイスカレー</b>（料理）— スパイスの組み合わせで味が無限に変わる、台所の実験。</li><li><b>コーヒーの手淹れ</b>（コーヒー・お茶）— 豆と挽き方と温度で、毎朝の一杯が作品になる。</li><li><b>カフェめぐり</b>（コーヒー・お茶）— お気に入りの一杯と空間を探す、街歩きの口実。</li><li><b><a href="hobby/fishing.html">釣り</a></b>（釣り）— 待つ時間すら楽しい。釣れた魚を食べるところまでが趣味。</li><li><b>家庭菜園</b>（植物）— プランターひとつで、育てて食べる喜びが手に入る。</li><li><b>野鳥観察</b>（自然観察）— 公園の木を見上げるだけで始められる。名前がわかると散歩が変わる。</li><li><b>星空観察</b>（自然観察）— 肉眼で見える星から。夜空の見方が一生変わる。</li><li><b>映画鑑賞</b>（鑑賞）— 名作から話題作まで。感想を言い合える仲間がいると倍楽しい。</li><li><b>読書</b>（鑑賞）— 1冊ごとに知らない人生をひとつ体験できる。</li><li><b>美術館めぐり</b>（鑑賞）— 作品の前で立ち止まる時間。知るほど見え方が変わる。</li></ul>
+    </section>
+    <!-- STATIC:END -->
+  </main>
+  <p class="foot">診断結果はお使いのブラウザの中だけに保存されます。<br><a href="about.html">このサイトについて</a>　<a href="privacy.html">プライバシーポリシー・免責事項</a></p>
 </div>
 <div class="toast" id="toast" hidden></div>
 <script src="config.js"></script>
